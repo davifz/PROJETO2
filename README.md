@@ -1,15 +1,17 @@
-# Polvo - Controle Financeiro Pessoal (Projeto 2)
+# Polvo - Controle Financeiro Pessoal
 
 Aplicação full stack de controle financeiro: **API REST em Node.js/Express + PostgreSQL** e **SPA em React (Vite)**.
 O usuário se cadastra, faz login (JWT) e registra entradas e saídas, com categorias, fontes/destinos, compras
 parceladas no cartão, relatórios, previsão de faturas e uma página de saúde financeira (desafio).
 
+O projeto foi desenvolvido como parte da disciplina de Programação Web Fullstack.
+
 ---
 
 ## Alunos
->[Davi Felipe Zeneratto](https://github.com/davifz)
+>[Davi Felipe Zeneratto](https://github.com/davifz) RA: 2576180
 >
->[Vinícius de Farias Santos](https://github.com/lodestaarz)
+>[Vinícius de Farias Santos](https://github.com/lodestaarz) RA: 2576341
 
 ---
 
