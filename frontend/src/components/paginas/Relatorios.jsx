@@ -1,4 +1,3 @@
-// Relatórios por categoria (RF7) e por fonte/destino (RF8).
 import { useMemo, useState } from 'react';
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { useRequisicao } from '../../hooks/useRequisicao.js';
@@ -25,7 +24,6 @@ function LegendaSeries({ series }) {
   );
 }
 
-// Tabela de categorias com %, período anterior e variação.
 function TabelaCategorias({ itens, total, totalAnterior, cores, aumentoEhBom }) {
   return (
     <div className="tabela-rolagem">
