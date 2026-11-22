@@ -6,8 +6,6 @@ import { authApi, definirAoExpirarSessao, sessao } from '../services/api.js';
 const AuthContext = createContext(null);
 const AVISO_EXPIRADA = 'Sua sessão expirou. Entre novamente.';
 
-// Lê o "exp" (expiração, em segundos) do payload do JWT, sem validar a assinatura
-// (quem valida é o servidor; aqui só queremos saber quando ele vai expirar).
 function lerExpiracao(token) {
   try {
     const payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
@@ -31,7 +29,6 @@ export function AuthProvider({ children }) {
 
   const logout = useCallback(() => encerrarSessao(), [encerrarSessao]);
 
-  // Qualquer 401 recebido pelo cliente HTTP encerra a sessão.
   useEffect(() => {
     definirAoExpirarSessao(() => encerrarSessao(AVISO_EXPIRADA));
   }, [encerrarSessao]);
@@ -58,7 +55,7 @@ export function AuthProvider({ children }) {
         setUsuario(dadosUsuario);
         sessao.salvarUsuario(dadosUsuario);
       })
-      .catch(() => {}); // 401 já é tratado pelo cliente HTTP
+      .catch(() => {});
   }, []);
 
   const login = useCallback(async (email, senha) => {
