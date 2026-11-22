@@ -19,7 +19,6 @@ export function calcularFatura(dataCompra, cartao, numeroParcela = 1) {
   return { referencia: iso(vencimento).slice(0, 7), fechamento: iso(fechamento), vencimento: iso(vencimento) };
 }
 
-// R$ 100,00 em 3× → [3334, 3333, 3333] (igual ao back-end)
 export function dividirEmParcelas(totalCentavos, quantidade) {
   const base = Math.floor(totalCentavos / quantidade);
   const resto = totalCentavos - base * quantidade;
