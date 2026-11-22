@@ -1,4 +1,3 @@
-// Estados padrão das telas que consomem a API: carregando, vazio e erro.
 import { IconeAlerta, IconeVazio } from './Icones.jsx';
 
 export function Carregando({ texto = 'Carregando...', compacto = false }) {
@@ -36,7 +35,6 @@ export function EstadoErro({ erro, aoTentarNovamente, compacto = false }) {
   );
 }
 
-// Envolve o conteúdo e decide qual estado mostrar.
 export function ConteudoRequisicao({ carregando, erro, vazio, recarregar, vazioProps, children, compacto }) {
   if (erro) return <EstadoErro erro={erro} aoTentarNovamente={recarregar} compacto={compacto} />;
   if (carregando) return <Carregando compacto={compacto} />;
