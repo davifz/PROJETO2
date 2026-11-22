@@ -1,0 +1,28 @@
+{
+  "name": "financas-backend",
+  "version": "1.0.0",
+  "description": "API REST do Projeto 2 — controle financeiro pessoal (Node.js + Express + PostgreSQL)",
+  "private": true,
+  "type": "module",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=18.18"
+  },
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "db:criar": "node database/criar-banco.js",
+    "db:seed": "node database/seed.js",
+    "db:reset": "npm run db:criar && npm run db:seed",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.13.1"
+  }
+}
