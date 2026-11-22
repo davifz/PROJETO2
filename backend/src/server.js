@@ -31,8 +31,8 @@ app.use('/api/lancamentos', lancamentosRoutes);
 app.use('/api/relatorios', relatoriosRoutes);
 app.use('/api/saude-financeira', saudeFinanceiraRoutes);
 
-app.use(rotaNaoEncontrada);   // nenhuma rota respondeu → 404 no padrão de erro
-app.use(tratarErros);         // tratamento de erros centralizado
+app.use(rotaNaoEncontrada);
+app.use(tratarErros);
 
 app.listen(config.porta, () => {
   console.log(`API rodando em http://localhost:${config.porta}/api`);
