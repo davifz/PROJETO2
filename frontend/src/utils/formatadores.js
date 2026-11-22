@@ -1,5 +1,3 @@
-// Formatação de valores para exibição (padrão brasileiro).
-
 const formatadorMoeda = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 const formatadorMoedaCompacta = new Intl.NumberFormat('pt-BR', {
   style: 'currency', currency: 'BRL', notation: 'compact', maximumFractionDigits: 1,
@@ -8,7 +6,7 @@ const formatadorMoedaCompacta = new Intl.NumberFormat('pt-BR', {
 export const moeda = (valor) => formatadorMoeda.format(Number(valor) || 0);
 export const moedaCompacta = (valor) => formatadorMoedaCompacta.format(Number(valor) || 0);
 
-// 'AAAA-MM-DD' → 'DD/MM/AAAA' (sem passar por Date, para não sofrer com fuso horário)
+// 'AAAA-MM-DD' → 'DD/MM/AAAA'
 export function data(iso) {
   if (!iso) return '';
   const [ano, mes, dia] = iso.slice(0, 10).split('-');
