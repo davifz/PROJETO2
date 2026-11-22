@@ -13,7 +13,7 @@ export default function Modal({ titulo, aberto, aoFechar, children, largura = 52
     };
     document.addEventListener('keydown', aoTeclar);
     document.body.style.overflow = 'hidden';
-    // Ao abrir, foca o primeiro campo do modal.
+
     const primeiro = caixaRef.current?.querySelector('input, select, textarea, button:not(.botao-icone)');
     primeiro?.focus();
     return () => {
