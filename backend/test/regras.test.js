@@ -35,7 +35,7 @@ test('Faturas: dia 31 em fevereiro vira o último dia do mês', () => {
   const cartao = { diaFechamento: 31, diaVencimento: 10 };
   assert.deepEqual(calcularFatura('2027-01-15', cartao, 2),
     { referencia: '2027-03', fechamento: '2027-02-28', vencimento: '2027-03-10' });
-  // 28/02 é o "dia 31" de fevereiro → compra nesse dia vai para a fatura seguinte
+  // 28/02 é o "dia 31" de fevereiro, compra nesse dia vai para a fatura seguinte
   assert.equal(calcularFatura('2027-02-28', cartao, 1).fechamento, '2027-03-31');
 });
 
