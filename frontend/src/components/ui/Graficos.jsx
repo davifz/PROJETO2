@@ -1,4 +1,3 @@
-// Peças compartilhadas pelos gráficos (Recharts).
 import { moeda } from '../../utils/formatadores.js';
 import { COR_EIXO } from '../../utils/cores.js';
 
@@ -8,7 +7,6 @@ export const propsEixo = {
   tickLine: false,
 };
 
-// Caixa de dica (tooltip) no estilo da aplicação, com valores em reais.
 export function DicaGrafico({ active, payload, label, formatarRotulo = (r) => r, formatarValor = moeda }) {
   if (!active || !payload?.length) return null;
   return (
