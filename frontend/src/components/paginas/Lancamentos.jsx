@@ -69,7 +69,7 @@ export default function Lancamentos() {
   const [periodo, setPeriodo] = useState(mesCorrente);
   const [filtros, setFiltros] = useState(FILTROS_VAZIOS);
   const [pagina, setPagina] = useState(1);
-  const [modal, setModal] = useState(null);       // { modo: 'novo' | 'editar' | 'excluir', lancamento? }
+  const [modal, setModal] = useState(null);
   const [mensagem, setMensagem] = useState('');
 
   const categorias = useRequisicao(() => categoriasApi.listar(), []);
@@ -79,7 +79,6 @@ export default function Lancamentos() {
     [periodo.inicio, periodo.fim, filtros.tipo, filtros.categoriaId, filtros.fonteDestinoId, pagina],
   );
 
-  // A mensagem de sucesso some sozinha.
   useEffect(() => {
     if (!mensagem) return undefined;
     const temporizador = setTimeout(() => setMensagem(''), 4000);
