@@ -1,5 +1,3 @@
-// Prévia da fatura no formulário de lançamento (só para informar o usuário).
-// A regra oficial é a do back-end (models/regras/faturas.js); esta é a mesma lógica.
 import { ultimoDiaDoMes } from './datas.js';
 
 function dataSegura(ano, mes, dia) {
