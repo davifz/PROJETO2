@@ -1,4 +1,3 @@
-// Previsão de faturas dos cartões (RF9): fatura aberta + próximas, com parcelas futuras.
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useRequisicao } from '../../hooks/useRequisicao.js';
