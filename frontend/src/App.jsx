@@ -1,4 +1,3 @@
-// Rotas da aplicação (React Router).
 import { Route, Routes } from 'react-router-dom';
 import Layout from './components/layout/Layout.jsx';
 import { RotaProtegida, RotaPublica } from './components/layout/RotaProtegida.jsx';
