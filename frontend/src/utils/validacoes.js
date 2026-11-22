@@ -1,7 +1,3 @@
-// Validações do lado do cliente. São COMPLEMENTARES: melhoram a experiência,
-// mas as regras valem de verdade no servidor (que valida tudo de novo).
-
-// Mesmo algoritmo do back-end (dígitos verificadores do CPF).
 export function cpfValido(cpf) {
   const d = String(cpf).replace(/\D/g, '');
   if (d.length !== 11 || /^(\d)\1{10}$/.test(d)) return false;
