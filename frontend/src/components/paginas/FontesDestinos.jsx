@@ -1,4 +1,3 @@
-// CRUD de fontes/destinos: rendas, contas e cartões de crédito.
 import { useState } from 'react';
 import { useRequisicao } from '../../hooks/useRequisicao.js';
 import { fontesDestinosApi } from '../../services/api.js';
@@ -140,7 +139,7 @@ function ExcluirFonte({ fonte, aoConcluir, aoCancelar }) {
       await fontesDestinosApi.excluir(fonte.id);
       aoConcluir();
     } catch (e) {
-      setErro(e.message);       // 409 quando há lançamentos vinculados
+      setErro(e.message);
       setExcluindo(false);
     }
   }
