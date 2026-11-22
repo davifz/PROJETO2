@@ -1,18 +1,14 @@
-# Dependências
 node_modules/
 
-# Variáveis de ambiente (segredos!) — só o .env.example vai para o Git
 .env
 .env.local
 .env.*.local
 
-# Build e logs
 dist/
 build/
 *.log
 npm-debug.log*
 
-# Sistema/editor
 .DS_Store
 Thumbs.db
 .vscode/
