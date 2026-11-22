@@ -12,7 +12,6 @@ export function RotaProtegida({ children }) {
   return children;
 }
 
-// Login e cadastro: quem já está logado vai direto para o painel.
 export function RotaPublica({ children }) {
   const { autenticado } = useAuth();
   if (autenticado) return <Navigate to="/" replace />;
