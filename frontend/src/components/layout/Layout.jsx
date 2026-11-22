@@ -1,4 +1,3 @@
-// Estrutura das telas autenticadas: menu lateral + conteúdo da rota (Outlet).
 import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext.jsx';
@@ -35,7 +34,7 @@ export default function Layout() {
   const [menuAberto, setMenuAberto] = useState(false);
   const location = useLocation();
 
-  useEffect(() => setMenuAberto(false), [location.pathname]); // fecha o menu ao navegar (celular)
+  useEffect(() => setMenuAberto(false), [location.pathname]);
 
   const iniciais = (usuario?.nome ?? '?').split(' ').filter(Boolean).slice(0, 2).map((p) => p[0]).join('').toUpperCase();
 
