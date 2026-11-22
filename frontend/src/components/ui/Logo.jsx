@@ -1,4 +1,3 @@
-// Logo "Polvo": um polvo segurando uma moeda (SVG original, nas cores da paleta).
 export default function Logo({ tamanho = 40, titulo = 'Polvo' }) {
   return (
     <svg width={tamanho} height={tamanho} viewBox="0 0 64 64" role="img" aria-label={titulo}>
