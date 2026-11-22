@@ -32,6 +32,7 @@ function FonteForm({ fonte, aoSalvar, aoCancelar }) {
 
   const alterar = (campo) => (evento) => {
     const valor = evento.target.type === 'checkbox' ? evento.target.checked : evento.target.value;
+    const versao = VERSAO[indicador.versao] ?? VERSAO.neutro;
     setFormulario({ ...formulario, [campo]: valor });
     if (erros[campo]) setErros({ ...erros, [campo]: undefined });
   };
