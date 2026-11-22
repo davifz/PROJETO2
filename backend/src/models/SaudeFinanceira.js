@@ -5,10 +5,10 @@ import { emCentavos, deCentavos, arredondar2 } from './regras/dinheiro.js';
 
 export const LIMITES = {
   taxaPoupancaMeta: 10,              // % da renda guardada no mês considerado bom
-  cartoesAtencao: 30,                // % da renda comprometida com faturas → atenção
+  cartoesAtencao: 30,                // % da renda comprometida com faturas
   cartoesCritico: 50,                
   regra503020: { necessidades: 50, desejos: 30, poupanca: 20 },
-  foraDaCurvaPercentual: 30,         // gasto do mês X% acima da média → fora da curva
+  foraDaCurvaPercentual: 30,         // gasto do mês X% acima da média
   foraDaCurvaMinimoCentavos: 5000,   // ...e pelo menos R$ 50,00 acima
   reservaMesesBom: 3,                // reserva cobre 3+ meses de despesas → bom
   reservaMesesMinimo: 1,             // menos de 1 mês → crítico
@@ -133,7 +133,6 @@ export async function analisar(usuarioId, hoje = hojeISO()) {
     });
   }
 
-  // 3. Parcelas futuras
   const parcelasPorMes = new Map();
   for (const item of itens) {
     if (item.totalParcelas > 1 && item.tipo === 'saida' && item.dataCaixa > hoje) {
@@ -159,7 +158,6 @@ export async function analisar(usuarioId, hoje = hojeISO()) {
     });
   }
 
-  // 4. Regra 50/30/20 (3 meses completos) 
   const base = itens.filter((i) => mesesBase.includes(i.mes));
   const renda = base.filter((i) => i.tipo === 'entrada').reduce((s, i) => s + i.centavos, 0);
   const saidasDoGrupo = (grupo) => base
@@ -296,7 +294,6 @@ export async function analisar(usuarioId, hoje = hojeISO()) {
       : `Nenhuma categoria está fora da curva em ${nomeDoMes(mesAtual)}.`,
   });
 
-  // 7. Reserva de emergência 
   {
     const saldoReserva = somarComSinal((i) => i.reserva && i.data <= hoje);
     const meses = mediaSaidas > 0 ? arredondar2(saldoReserva / mediaSaidas) : null;
