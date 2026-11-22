@@ -1,4 +1,3 @@
-// Gráfico de rosca das saídas por categoria + legenda com valores.
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import { DicaGrafico } from './Graficos.jsx';
 import { COR_OUTROS } from '../../utils/cores.js';
