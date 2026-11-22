@@ -27,7 +27,6 @@ function valorDoIndicador(indicador) {
 
 function Indicador({ indicador }) {
   const status = STATUS[indicador.status] ?? STATUS.neutro;
-    const nivel = resumo.percentualUtilizado >= 90 ? 'barra--perigo' : resumopercentualUtilizado >= 20 ? 'barra--alerta' : '';
   return (
     <article className="card indicador">
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8, alignItems: 'flex-start' }}>
