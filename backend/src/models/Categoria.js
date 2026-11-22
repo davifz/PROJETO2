@@ -1,8 +1,5 @@
-// Acesso à tabela categorias. Toda consulta filtra por usuario_id (RF3).
 import { query, transacao } from '../config/db.js';
 
-// Criadas automaticamente no cadastro do usuário.
-// grupo: classificação para a regra 50/30/20 da página de saúde financeira.
 export const CATEGORIAS_PADRAO = [
   { nome: 'Salário', tipo: 'entrada', grupo: null },
   { nome: 'Outras receitas', tipo: 'entrada', grupo: null },
@@ -22,7 +19,6 @@ const SELECT_CATEGORIA = `
          (SELECT COUNT(*) FROM lancamentos l WHERE l.categoria_id = c.id) AS "totalLancamentos"
     FROM categorias c`;
 
-// `cliente` permite rodar dentro da transação do cadastro.
 export async function criarCategoriasPadrao(usuarioId, cliente) {
   for (const categoria of CATEGORIAS_PADRAO) {
     await cliente.query(

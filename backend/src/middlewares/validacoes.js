@@ -1,4 +1,3 @@
-// Em caso de erro, lança ErroHttp(400) com as mensagens por campo.
 import { ErroHttp } from './erros.js';
 import { cpfValido, somenteDigitos } from '../models/regras/cpf.js';
 import { dataValida, hojeISO, inicioDoMes, fimDoMes, diasNoPeriodo } from '../models/regras/datas.js';
@@ -9,7 +8,7 @@ export const TIPOS_FONTE = ['renda', 'conta', 'cartao_credito'];
 export const GRUPOS_ORCAMENTO = ['necessidade', 'desejo', 'poupanca'];
 const RE_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-//  Funções Auxiliares
+// Funções Auxiliares
 
 // aceita só string, troca caracteres de controle por espaço, junta espaços repetidos e remove espaços nas pontas.
 export function textoLimpo(valor) {

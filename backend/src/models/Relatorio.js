@@ -12,7 +12,6 @@ function tendencia(atual, anterior) {
 
 export async function porCategoria(usuarioId, inicio, fim) {
   const anterior = periodoAnterior(inicio, fim);
-  // $1 usuário | $2..$3 período escolhido | $4..$5 período anterior
   const parametros = [usuarioId, inicio, fim, anterior.inicio, anterior.fim];
 
   const porCategoriaSql = await query(

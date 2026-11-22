@@ -1,4 +1,3 @@
-// Erro "esperado", lançado pelas rotas/validações com o status HTTP desejado.
 export class ErroHttp extends Error {
   constructor(status, mensagem, campos) {
     super(mensagem);
@@ -7,8 +6,6 @@ export class ErroHttp extends Error {
   }
 }
 
-// Violações de UNIQUE (código 23505 do PostgreSQL) → qual campo duplicou.
-// A chave é o nome da restrição/índice definido em database/schema.sql.
 const UNICIDADE = {
   usuarios_email_unico: {
     erro: 'Usuário já cadastrado.', campo: 'email', mensagem: 'Já existe um usuário com este e-mail.',
@@ -32,7 +29,6 @@ export function rotaNaoEncontrada(req, res) {
   res.status(404).json({ erro: `Rota não encontrada: ${req.method} ${req.originalUrl}` });
 }
 
-// exceções lançadas dentro de funções async das rotas.
 // eslint-disable-next-line no-unused-vars
 export function tratarErros(erro, req, res, next) {
   if (res.headersSent) return next(erro);
@@ -48,7 +44,6 @@ export function tratarErros(erro, req, res, next) {
     return res.status(413).json({ erro: 'O corpo da requisição é grande demais.' });
   }
 
-  // Erros do PostgreSQL (a garantia final das regras é do banco)
   switch (erro.code) {
     case '23505': { // unique_violation
       const info = UNICIDADE[erro.constraint];

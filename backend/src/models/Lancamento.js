@@ -17,7 +17,6 @@ const SELECT_LANCAMENTO = `
 
 const ORDENACAO = 'ORDER BY l.data DESC, l.criado_em DESC, l.parcela_atual ASC, l.id DESC';
 
-// Acrescenta a fatura em que o lançamento cai (só para cartão de crédito).
 function formatar(linha) {
   const { diaFechamento, diaVencimento, ...lancamento } = linha;
   lancamento.fatura = linha.fonteDestinoTipo === 'cartao_credito'
@@ -43,7 +42,6 @@ function montarFiltros(usuarioId, filtros) {
 export async function listar(usuarioId, filtros) {
   const { where, parametros } = montarFiltros(usuarioId, filtros);
 
-  // Totais do período filtrado, calculados no banco.
   const totais = await query(
     `SELECT COUNT(*) AS quantidade,
             COALESCE(SUM(l.valor) FILTER (WHERE l.tipo = 'entrada'), 0) AS entradas,

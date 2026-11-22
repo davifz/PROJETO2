@@ -1,6 +1,5 @@
-// Valida os dois dígitos verificadores do CPF.
 export function cpfValido(cpf) {
-  const d = String(cpf ?? '').replace(/\D/g, '');       // mantém só os dígitos
+  const d = String(cpf ?? '').replace(/\D/g, '');       
   if (d.length !== 11 || /^(\d)\1{10}$/.test(d)) {      // rejeita 111.111.111-11 etc.
     return false;
   }

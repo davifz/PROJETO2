@@ -16,43 +16,36 @@ DROP TABLE IF EXISTS usuarios        CASCADE;
 CREATE TABLE usuarios (
   id          SERIAL PRIMARY KEY,
   nome        VARCHAR(120) NOT NULL CHECK (length(trim(nome)) > 0),
-  email       VARCHAR(160) NOT NULL,                 -- armazenado em minúsculas
-  cpf         CHAR(11)     NOT NULL,                 -- armazenado só com dígitos
-  senha_hash  VARCHAR(100) NOT NULL,                 -- bcrypt (hash + salt)
+  email       VARCHAR(160) NOT NULL,                 
+  cpf         CHAR(11)     NOT NULL,                 
+  senha_hash  VARCHAR(100) NOT NULL,                 
   criado_em   TIMESTAMP    NOT NULL DEFAULT NOW(),
 
-  -- A garantia de unicidade é do banco (atômica), não de uma consulta prévia.
   CONSTRAINT usuarios_email_unico UNIQUE (email),
   CONSTRAINT usuarios_cpf_unico   UNIQUE (cpf),
 
-  -- Rede de segurança: impede gravar e-mail/CPF sem normalizar.
   CONSTRAINT usuarios_email_normalizado CHECK (email = lower(trim(email))),
   CONSTRAINT usuarios_cpf_digitos       CHECK (cpf ~ '^[0-9]{11}$')
 );
 
--- -----------------------------------------------------------------------------
 -- CATEGORIAS
--- -----------------------------------------------------------------------------
+
 CREATE TABLE categorias (
   id               SERIAL PRIMARY KEY,
   usuario_id       INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
   nome             VARCHAR(60) NOT NULL CHECK (length(trim(nome)) > 0),
   tipo             VARCHAR(7)  NOT NULL CHECK (tipo IN ('entrada', 'saida')),
-  -- Classificação para a regra 50/30/20 (só faz sentido para saídas).
   grupo_orcamento  VARCHAR(11) CHECK (grupo_orcamento IN ('necessidade', 'desejo', 'poupanca')),
 
   CONSTRAINT categorias_nome_unico UNIQUE (usuario_id, nome, tipo),
-  -- Necessária para a FK composta de lancamentos (id + dono + tipo).
   CONSTRAINT categorias_id_usuario_tipo_unico UNIQUE (id, usuario_id, tipo),
   CONSTRAINT categorias_grupo_so_saida CHECK (grupo_orcamento IS NULL OR tipo = 'saida')
 );
 
--- Mesmo nome com letras diferentes ("Lazer" x "lazer") também é duplicata.
 CREATE UNIQUE INDEX categorias_nome_unico_ci ON categorias (usuario_id, lower(nome), tipo);
 
--- -----------------------------------------------------------------------------
--- fontes_destinos
--- -----------------------------------------------------------------------------
+-- FONTES DESTINOS
+
 CREATE TABLE fontes_destinos (
   id              SERIAL PRIMARY KEY,
   usuario_id      INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
@@ -64,7 +57,6 @@ CREATE TABLE fontes_destinos (
   reserva         BOOLEAN NOT NULL DEFAULT FALSE,     -- conta marcada como reserva de emergência
 
   CONSTRAINT fontes_destinos_nome_unico UNIQUE (usuario_id, nome),
-  -- Necessária para a FK composta de lancamentos (id + dono).
   CONSTRAINT fontes_destinos_id_usuario_unico UNIQUE (id, usuario_id),
   CONSTRAINT fontes_destinos_dados_cartao CHECK (
     tipo <> 'cartao_credito'
@@ -75,30 +67,27 @@ CREATE TABLE fontes_destinos (
 
 CREATE UNIQUE INDEX fontes_destinos_nome_unico_ci ON fontes_destinos (usuario_id, lower(nome));
 
--- -----------------------------------------------------------------------------
 -- LANÇAMENTOS
--- -----------------------------------------------------------------------------
+
 CREATE TABLE lancamentos (
   id                  SERIAL PRIMARY KEY,
   usuario_id          INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
   tipo                VARCHAR(7)     NOT NULL CHECK (tipo IN ('entrada', 'saida')),
   descricao           VARCHAR(120)   NOT NULL CHECK (length(trim(descricao)) > 0),
-  valor               NUMERIC(12, 2) NOT NULL CHECK (valor > 0),   -- o sinal vem do tipo
-  data                DATE           NOT NULL,                     -- data da compra/recebimento
+  valor               NUMERIC(12, 2) NOT NULL CHECK (valor > 0),   
+  data                DATE           NOT NULL,                     
   categoria_id        INTEGER NOT NULL REFERENCES categorias(id),
   fonte_destino_id    INTEGER NOT NULL REFERENCES fontes_destinos(id),
   parcela_atual       SMALLINT NOT NULL DEFAULT 1,
   total_parcelas      SMALLINT NOT NULL DEFAULT 1 CHECK (total_parcelas BETWEEN 1 AND 48),
-  grupo_parcelamento  UUID,                                        -- mesmo valor em todas as parcelas
+  grupo_parcelamento  UUID,                                        
   criado_em           TIMESTAMP NOT NULL DEFAULT NOW(),
 
   CONSTRAINT lancamentos_parcela_valida CHECK (parcela_atual BETWEEN 1 AND total_parcelas),
   CONSTRAINT lancamentos_grupo_parcelas CHECK ((total_parcelas = 1) = (grupo_parcelamento IS NULL)),
 
-  -- A categoria precisa ser do MESMO usuário e do MESMO tipo do lançamento.
   CONSTRAINT lancamentos_categoria_do_usuario
     FOREIGN KEY (categoria_id, usuario_id, tipo) REFERENCES categorias (id, usuario_id, tipo),
-  -- A fonte/destino precisa ser do MESMO usuário.
   CONSTRAINT lancamentos_fonte_do_usuario
     FOREIGN KEY (fonte_destino_id, usuario_id) REFERENCES fontes_destinos (id, usuario_id)
 );

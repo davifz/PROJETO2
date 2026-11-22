@@ -1,5 +1,4 @@
-// Utilitários de datas no formato 'AAAA-MM-DD'.
-// Todos os cálculos usam UTC para não sofrer com fuso horário/horário de verão.
+// datas no formato 'AAAA-MM-DD'.
 
 const RE_DATA = /^(\d{4})-(\d{2})-(\d{2})$/;
 const doisDigitos = (n) => String(n).padStart(2, '0');
@@ -22,7 +21,6 @@ export function deISO(texto) {
   return new Date(Date.UTC(ano, mes - 1, dia));
 }
 
-// true se o texto é uma data real no formato AAAA-MM-DD (rejeita 2026-02-30).
 export function dataValida(texto) {
   if (typeof texto !== 'string') return false;
   const partes = RE_DATA.exec(texto);
@@ -33,7 +31,6 @@ export function dataValida(texto) {
   return data.getUTCFullYear() === ano && data.getUTCMonth() === mes - 1 && data.getUTCDate() === dia;
 }
 
-// Data de hoje no fuso do servidor (o "dia" do usuário, não o de Greenwich).
 export function hojeISO(agora = new Date()) {
   return `${agora.getFullYear()}-${doisDigitos(agora.getMonth() + 1)}-${doisDigitos(agora.getDate())}`;
 }
@@ -44,7 +41,6 @@ export function adicionarDias(iso, dias) {
   return paraISO(data);
 }
 
-// Soma meses mantendo o dia quando possível (31/01 + 1 mês → 28/02).
 export function adicionarMeses(iso, meses) {
   const [ano, mes, dia] = iso.split('-').map(Number);
   return paraISO(dataSegura(ano, mes - 1 + meses, dia));
@@ -59,15 +55,10 @@ export function fimDoMes(iso) {
 
 export const mesDe = (iso) => iso.slice(0, 7);          // 'AAAA-MM'
 
-// Quantidade de dias de inicio a fim, contando os dois.
 export function diasNoPeriodo(inicio, fim) {
   return Math.round((deISO(fim) - deISO(inicio)) / 86_400_000) + 1;
 }
 
-// Período anterior de mesmo tamanho.
-// Se o período é formado por meses inteiros (ex.: 01/10 a 31/10), o anterior
-// também é de meses inteiros (01/09 a 30/09). Caso contrário, usa o mesmo
-// número de dias imediatamente antes do início.
 export function periodoAnterior(inicio, fim) {
   const mesesInteiros = inicio === inicioDoMes(inicio) && fim === fimDoMes(fim);
   if (mesesInteiros) {

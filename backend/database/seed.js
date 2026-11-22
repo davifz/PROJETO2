@@ -24,7 +24,7 @@ function dataNoMes(deslocamento, dia) {
   return `${base.slice(0, 8)}${String(diaAjustado).padStart(2, '0')}`;
 }
 
-const reais = (valor) => Math.round(valor * 100);                  // → centavos
+const reais = (valor) => Math.round(valor * 100);                  // centavos
 
 async function criarUsuario({ nome, email, cpf }) {
   const senhaHash = await bcrypt.hash(SENHA_PADRAO, 10);
@@ -32,7 +32,6 @@ async function criarUsuario({ nome, email, cpf }) {
   return usuario;
 }
 
-// Carrega os ids das categorias ("tipo:nome") e fontes ("nome") do usuário.
 async function mapear(usuarioId) {
   const categorias = new Map(
     (await Categoria.listar(usuarioId)).map((c) => [`${c.tipo}:${c.nome}`, c.id]),

@@ -1,5 +1,3 @@
-// Cria o banco de dados (se ainda não existir) e executa database/schema.sql.
-// npm run db:criar
 import 'dotenv/config';
 import { readFile } from 'node:fs/promises';
 import pg from 'pg';
@@ -20,11 +18,10 @@ async function criarBancoSeNecessario() {
     await cliente.connect();
     const { rowCount } = await cliente.query('SELECT 1 FROM pg_database WHERE datname = $1', [nomeBanco]);
     if (rowCount === 0) {
-      // Nome de banco não aceita parâmetro ($1); por isso é escapado com aspas duplas.
       await cliente.query(`CREATE DATABASE "${nomeBanco.replace(/"/g, '""')}"`);
-      console.log(`✔ Banco "${nomeBanco}" criado.`);
+      console.log(`Banco "${nomeBanco}" criado.`);
     } else {
-      console.log(`✔ Banco "${nomeBanco}" já existe.`);
+      console.log(`Banco "${nomeBanco}" já existe.`);
     }
   } catch (erro) {
     console.warn(`! Não foi possível verificar/criar o banco automaticamente (${erro.message}).`);
@@ -40,7 +37,7 @@ async function executarSchema() {
   await cliente.connect();
   try {
     await cliente.query(sql);
-    console.log('✔ Tabelas criadas (database/schema.sql).');
+    console.log('Tabelas criadas (database/schema.sql).');
   } finally {
     await cliente.end();
   }

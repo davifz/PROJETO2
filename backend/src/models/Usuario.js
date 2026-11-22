@@ -1,4 +1,3 @@
-// Acesso à tabela usuarios.
 import { query, transacao } from '../config/db.js';
 import { criarCategoriasPadrao } from './Categoria.js';
 import { criarFontesDestinosPadrao } from './FonteDestino.js';

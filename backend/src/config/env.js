@@ -1,4 +1,3 @@
-// Carrega o arquivo .env e centraliza as configurações da aplicação.
 import 'dotenv/config';
 
 const obrigatorias = ['DATABASE_URL', 'JWT_SECRET'];
