@@ -9,7 +9,6 @@ import { cpfValido, emailValido, senhaForte } from '../../utils/validacoes.js';
 
 const VAZIO = { nome: '', email: '', cpf: '', senha: '', confirmacaoSenha: '' };
 
-// Validação no cliente: as mesmas regras do servidor (que valida de novo).
 function validar(dados) {
   const erros = {};
   if (!dados.nome.trim()) erros.nome = 'Informe o nome.';
@@ -50,7 +49,7 @@ export default function Cadastro() {
       await cadastrar(formulario);
       navigate('/', { replace: true });
     } catch (erro) {
-      // 409: o servidor diz qual campo está duplicado (email ou cpf) → mensagem junto ao campo.
+      // 409: o servidor diz qual campo está duplicado (email ou cpf).
       setErroGeral(erro.message);
       setErros(erro.campos);
       setEnviando(false);
