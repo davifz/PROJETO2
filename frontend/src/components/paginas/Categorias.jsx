@@ -99,12 +99,10 @@ function CategoriaForm({ categoria, tipoInicial, aoSalvar, aoCancelar }) {
 function ExcluirCategoria({ categoria, outras, aoConcluir, aoCancelar }) {
   const [destino, setDestino] = useState('');
   const [erro, setErro] = useState('');
-  const [aviso409, setAviso409] = useState('');   // mensagem do servidor quando há lançamentos
+  const [aviso409, setAviso409] = useState('');
   const [excluindo, setExcluindo] = useState(false);
   const opcoes = outras.filter((c) => c.tipo === categoria.tipo && c.id !== categoria.id);
 
-  // 1ª tentativa: exclusão simples. Se a categoria tiver lançamentos, o servidor
-  // responde 409 com a explicação e oferecemos mover os lançamentos.
   async function excluir() {
     setExcluindo(true);
     setErro('');
@@ -183,7 +181,7 @@ function ListaCategorias({ titulo, descricao, itens, aoEditar, aoExcluir, aoNova
 
 export default function Categorias() {
   const { dados, carregando, erro, recarregar } = useRequisicao(() => categoriasApi.listar(), []);
-  const [modal, setModal] = useState(null);     // { modo: 'form' | 'excluir', categoria?, tipo? }
+  const [modal, setModal] = useState(null);
   const [mensagem, setMensagem] = useState('');
   const fechar = () => setModal(null);
 
