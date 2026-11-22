@@ -1,4 +1,3 @@
-// CRUD de fontes/destinos (RF5). Todas as rotas exigem token.
 import { Router } from 'express';
 import * as FonteDestino from '../models/FonteDestino.js';
 import { autenticar } from '../middlewares/autenticar.js';
@@ -24,17 +23,16 @@ router.get('/:id', async (req, res) => {
   res.json(await buscarOu404(req.usuarioId, idDaUrl(req)));
 });
 
-// POST /api/fontes-destinos → 201 | 400 (cartão sem fechamento/vencimento/limite) | 409
+// POST /api/fontes-destinos
 router.post('/', validarFonteDestino, async (req, res) => {
   res.status(201).json(await FonteDestino.criar(req.usuarioId, req.dados));
 });
 
-// PUT /api/fontes-destinos/:id → 200 | 400 | 404 | 409
+// PUT /api/fontes-destinos/:id
 router.put('/:id', validarFonteDestino, async (req, res) => {
   const id = idDaUrl(req);
   const atual = await buscarOu404(req.usuarioId, id);
 
-  // Mudar o tipo (ex.: cartão → conta) quebraria parcelamentos e faturas existentes.
   if (atual.tipo !== req.dados.tipo && atual.totalLancamentos > 0) {
     throw new ErroHttp(409, 'Não é possível mudar o tipo desta fonte/destino.', {
       tipo: `Há ${atual.totalLancamentos} lançamento(s) vinculados; o tipo não pode ser alterado.`,
@@ -43,7 +41,7 @@ router.put('/:id', validarFonteDestino, async (req, res) => {
   res.json(await FonteDestino.atualizar(req.usuarioId, id, req.dados));
 });
 
-// DELETE /api/fontes-destinos/:id → 204 | 404 | 409 (há lançamentos vinculados)
+// DELETE /api/fontes-destinos/:id
 router.delete('/:id', async (req, res) => {
   const id = idDaUrl(req);
   const atual = await buscarOu404(req.usuarioId, id);

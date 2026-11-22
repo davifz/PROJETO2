@@ -1,4 +1,3 @@
-// CRUD de categorias (RF4). Todas as rotas exigem token.
 import { Router } from 'express';
 import * as Categoria from '../models/Categoria.js';
 import { autenticar } from '../middlewares/autenticar.js';
@@ -30,12 +29,11 @@ router.post('/', validarCategoria, async (req, res) => {
   res.status(201).json(await Categoria.criar(req.usuarioId, req.dados));
 });
 
-// PUT /api/categorias/:id → 200 | 400 | 404 | 409
+// PUT /api/categorias/:id
 router.put('/:id', validarCategoria, async (req, res) => {
   const id = idDaUrl(req);
   const atual = await buscarOu404(req.usuarioId, id);
 
-  // Mudar o tipo deixaria lançamentos com categoria de tipo diferente.
   if (atual.tipo !== req.dados.tipo && atual.totalLancamentos > 0) {
     throw new ErroHttp(409, 'Não é possível mudar o tipo desta categoria.', {
       tipo: `A categoria tem ${atual.totalLancamentos} lançamento(s); o tipo não pode ser alterado.`,
@@ -44,7 +42,7 @@ router.put('/:id', validarCategoria, async (req, res) => {
   res.json(await Categoria.atualizar(req.usuarioId, id, req.dados));
 });
 
-// DELETE /api/categorias/:id[?moverPara=ID] → 204 | 400 | 404 | 409
+// DELETE /api/categorias/:id[?moverPara=ID]
 router.delete('/:id', async (req, res) => {
   const id = idDaUrl(req);
   const atual = await buscarOu404(req.usuarioId, id);
@@ -54,7 +52,6 @@ router.delete('/:id', async (req, res) => {
     return res.status(204).end();
   }
 
-  // Tem lançamentos: recusa (409), a menos que o usuário escolha para onde movê-los.
   if (req.query.moverPara === undefined) {
     throw new ErroHttp(
       409,

@@ -1,4 +1,3 @@
-// CRUD de lançamentos (RF6), com parcelamento no cartão. Todas as rotas exigem token.
 import { Router } from 'express';
 import * as Lancamento from '../models/Lancamento.js';
 import * as Categoria from '../models/Categoria.js';
@@ -14,14 +13,10 @@ const rotuloTipo = (tipo) => (tipo === 'saida' ? 'saída' : 'entrada');
 
 async function buscarOu404(usuarioId, id) {
   const lancamento = await Lancamento.buscarPorId(usuarioId, id);
-  // Lançamento de outro usuário "não existe" para quem pediu → 404 (RF3).
   if (!lancamento) throw new ErroHttp(404, 'Lançamento não encontrado.');
   return lancamento;
 }
 
-// Regras que dependem do banco: a categoria e a fonte/destino precisam ser do
-// próprio usuário (RF3), o tipo da categoria precisa bater com o do lançamento
-// e só saídas no cartão de crédito podem ser parceladas.
 async function conferirRegrasDeNegocio(usuarioId, dados) {
   const [categoria, fonte] = await Promise.all([
     Categoria.buscarPorId(usuarioId, dados.categoriaId),
@@ -57,24 +52,22 @@ async function conferirRegrasDeNegocio(usuarioId, dados) {
 }
 
 // GET /api/lancamentos?inicio=&fim=&tipo=&categoriaId=&fonteDestinoId=&pagina=&porPagina=
-// Sem período, usa o mês corrente. Devolve também os totais do período filtrado.
 router.get('/', validarFiltrosLancamentos, async (req, res) => {
   res.json(await Lancamento.listar(req.usuarioId, req.filtros));
 });
 
-// GET /api/lancamentos/:id → 200 | 404
+// GET /api/lancamentos/:id
 router.get('/:id', async (req, res) => {
   res.json(await buscarOu404(req.usuarioId, idDaUrl(req)));
 });
 
-// POST /api/lancamentos → 201 | 400 | 404
+// POST /api/lancamentos
 router.post('/', validarLancamento, async (req, res) => {
   await conferirRegrasDeNegocio(req.usuarioId, req.dados);
   res.status(201).json(await Lancamento.criar(req.usuarioId, req.dados));
 });
 
-// PUT /api/lancamentos/:id → 200 | 400 | 404
-// O número de parcelas não muda na edição (para isso, exclua a compra e lance de novo).
+// PUT /api/lancamentos/:id
 router.put('/:id', validarLancamento, async (req, res) => {
   const existente = await buscarOu404(req.usuarioId, idDaUrl(req));
   const dados = { ...req.dados, totalParcelas: existente.totalParcelas };
@@ -82,7 +75,7 @@ router.put('/:id', validarLancamento, async (req, res) => {
   res.json(await Lancamento.atualizar(req.usuarioId, existente, dados));
 });
 
-// DELETE /api/lancamentos/:id[?todasParcelas=true] → 204 | 404
+// DELETE /api/lancamentos/:id[?todasParcelas=true]
 router.delete('/:id', async (req, res) => {
   const existente = await buscarOu404(req.usuarioId, idDaUrl(req));
   await Lancamento.excluir(req.usuarioId, existente, req.query.todasParcelas === 'true');

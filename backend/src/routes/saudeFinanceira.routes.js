@@ -1,4 +1,3 @@
-// Desafio: página de saúde financeira. Os cálculos ficam em models/SaudeFinanceira.js.
 import { Router } from 'express';
 import * as SaudeFinanceira from '../models/SaudeFinanceira.js';
 import { autenticar } from '../middlewares/autenticar.js';

@@ -1,4 +1,4 @@
-// Testes das regras de negócio puras (não precisam de banco).
+// Testes das regras de negócio  
 // Rodar: npm test
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
