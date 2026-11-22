@@ -1,4 +1,3 @@
-// Ícones em SVG (traço), sem biblioteca externa.
 function Icone({ children, tamanho = 20, ...props }) {
   return (
     <svg
