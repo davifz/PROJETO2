@@ -44,7 +44,6 @@ CREATE TABLE fontes_destinos (
   dia_vencimento  SMALLINT CHECK (dia_vencimento BETWEEN 1 AND 31),
   limite          NUMERIC(12, 2) CHECK (limite >= 0),
   reserva         BOOLEAN NOT NULL DEFAULT FALSE,
-  criado_em       TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 
   CONSTRAINT fontes_destinos_nome_unico UNIQUE (usuario_id, nome),
   CONSTRAINT fontes_destinos_id_usuario_unico UNIQUE (id, usuario_id),
