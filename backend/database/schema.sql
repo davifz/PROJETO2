@@ -1,18 +1,12 @@
--- Projeto: Controle Financeiro Pessoal
 -- Esquema do banco (PostgreSQL 13+)
 
 -- `npm run db:criar` (database/criar-banco.js).
-
--- ATENÇÃO: apaga as tabelas existentes e recria tudo do zero.
 
 DROP TABLE IF EXISTS lancamentos     CASCADE;
 DROP TABLE IF EXISTS fontes_destinos CASCADE;
 DROP TABLE IF EXISTS categorias      CASCADE;
 DROP TABLE IF EXISTS usuarios        CASCADE;
 
--- -----------------------------------------------------------------------------
--- USUÁRIOS
--- -----------------------------------------------------------------------------
 CREATE TABLE usuarios (
   id          SERIAL PRIMARY KEY,
   nome        VARCHAR(120) NOT NULL CHECK (length(trim(nome)) > 0),
@@ -28,8 +22,6 @@ CREATE TABLE usuarios (
   CONSTRAINT usuarios_cpf_digitos       CHECK (cpf ~ '^[0-9]{11}$')
 );
 
--- CATEGORIAS
-
 CREATE TABLE categorias (
   id               SERIAL PRIMARY KEY,
   usuario_id       INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
@@ -44,8 +36,6 @@ CREATE TABLE categorias (
 
 CREATE UNIQUE INDEX categorias_nome_unico_ci ON categorias (usuario_id, lower(nome), tipo);
 
--- FONTES DESTINOS
-
 CREATE TABLE fontes_destinos (
   id              SERIAL PRIMARY KEY,
   usuario_id      INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
@@ -54,7 +44,7 @@ CREATE TABLE fontes_destinos (
   dia_fechamento  SMALLINT CHECK (dia_fechamento BETWEEN 1 AND 31),
   dia_vencimento  SMALLINT CHECK (dia_vencimento BETWEEN 1 AND 31),
   limite          NUMERIC(12, 2) CHECK (limite >= 0),
-  reserva         BOOLEAN NOT NULL DEFAULT FALSE,     -- conta marcada como reserva de emergência
+  reserva         BOOLEAN NOT NULL DEFAULT FALSE,
 
   CONSTRAINT fontes_destinos_nome_unico UNIQUE (usuario_id, nome),
   CONSTRAINT fontes_destinos_id_usuario_unico UNIQUE (id, usuario_id),
@@ -66,8 +56,6 @@ CREATE TABLE fontes_destinos (
 );
 
 CREATE UNIQUE INDEX fontes_destinos_nome_unico_ci ON fontes_destinos (usuario_id, lower(nome));
-
--- LANÇAMENTOS
 
 CREATE TABLE lancamentos (
   id                  SERIAL PRIMARY KEY,
