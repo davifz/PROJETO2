@@ -4,7 +4,7 @@ Aplicação full stack de controle financeiro: **API REST em Node.js/Express + P
 O usuário se cadastra, faz login (JWT) e registra entradas e saídas, com categorias, fontes/destinos, compras
 parceladas no cartão, relatórios, previsão de faturas e uma página de saúde financeira (desafio).
 
-O projeto foi desenvolvido como parte da disciplina de Programação Web Fullstack.
+O projeto foi desenvolvido como parte da disciplina de Programação Web Fullstack do curso Engenharia de Software.
 
 ---
 
