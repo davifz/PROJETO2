@@ -10,13 +10,11 @@ const RE_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 // Funções Auxiliares
 
-// aceita só string, troca caracteres de controle por espaço, junta espaços repetidos e remove espaços nas pontas.
 export function textoLimpo(valor) {
   if (typeof valor !== 'string') return '';
   return valor.replace(/[\u0000-\u001F\u007F]/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
-// Inteiro positivo vindo de número ou texto ("12"); senão, null.
 export function inteiroPositivo(valor) {
   const numero = typeof valor === 'string' && /^\d{1,10}$/.test(valor.trim()) ? Number(valor) : valor;
   return Number.isInteger(numero) && numero > 0 && numero <= 2_147_483_647 ? numero : null;
