@@ -71,8 +71,6 @@ export async function excluir(usuarioId, id) {
   return rowCount > 0;
 }
 
-// Alternativa à recusa da exclusão: move os lançamentos para outra categoria
-// (do mesmo usuário e tipo) e então exclui — tudo na mesma transação.
 export async function moverLancamentosEExcluir(usuarioId, id, destinoId) {
   return transacao(async (cliente) => {
     const movidos = await cliente.query(
