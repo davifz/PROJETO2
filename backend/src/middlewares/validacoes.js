@@ -8,8 +8,6 @@ export const TIPOS_FONTE = ['renda', 'conta', 'cartao_credito'];
 export const GRUPOS_ORCAMENTO = ['necessidade', 'desejo', 'poupanca'];
 const RE_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-// Funções Auxiliares
-
 export function textoLimpo(valor) {
   if (typeof valor !== 'string') return '';
   return valor.replace(/[\u0000-\u001F\u007F]/g, ' ').replace(/\s+/g, ' ').trim();
@@ -24,7 +22,6 @@ function falharSeHouverErros(campos) {
   if (Object.keys(campos).length > 0) throw new ErroHttp(400, 'Dados inválidos.', campos);
 }
 
-// Id da URL (/recurso/:id). Id malformado = recurso inexistente → 404.
 export function idDaUrl(req) {
   const id = inteiroPositivo(req.params.id);
   if (!id) throw new ErroHttp(404, 'Registro não encontrado.');
@@ -32,8 +29,6 @@ export function idDaUrl(req) {
 }
 
 const valorBooleano = (valor) => valor === true || valor === 'true';
-
-// Funções de Autenticação
 
 export function validarCadastro(req, res, next) {
   const corpo = req.body ?? {};
@@ -78,8 +73,6 @@ export function validarLogin(req, res, next) {
   next();
 }
 
-// Funções de Categorias
-
 export function validarCategoria(req, res, next) {
   const corpo = req.body ?? {};
   const nome = textoLimpo(corpo.nome);
@@ -99,8 +92,6 @@ export function validarCategoria(req, res, next) {
   req.dados = { nome, tipo, grupoOrcamento };
   next();
 }
-
-// Fontes/destinos
 
 export function validarFonteDestino(req, res, next) {
   const corpo = req.body ?? {};
@@ -141,8 +132,6 @@ export function validarFonteDestino(req, res, next) {
   next();
 }
 
-// Lançamentos no Sistema
-
 export function validarLancamento(req, res, next) {
   const corpo = req.body ?? {};
   const tipo = corpo.tipo;
@@ -178,8 +167,6 @@ export function validarLancamento(req, res, next) {
   req.dados = { tipo, descricao, valorCentavos, data, categoriaId, fonteDestinoId, totalParcelas };
   next();
 }
-
-// Filtros de período (query string)
 
 // Lê ?inicio=&fim=. Sem eles, usa o mês corrente.
 function lerPeriodo(query, campos) {
