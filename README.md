@@ -89,7 +89,7 @@ projeto2-financas/
 ```bash
 cd backend
 npm install
-cp .env.example .env          # no Windows (PowerShell): copy .env.example .env
+cp .env.example .env
 ```
 
 Edite o `.env`:
