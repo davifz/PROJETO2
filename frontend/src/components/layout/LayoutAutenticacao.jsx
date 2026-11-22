@@ -1,4 +1,3 @@
-// Moldura das telas de login e cadastro (painel da marca + formulário).
 import Logo from '../ui/Logo.jsx';
 import { IconeCheck } from '../ui/Icones.jsx';
 
