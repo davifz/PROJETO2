@@ -1,13 +1,8 @@
-// Ponto ÚNICO de comunicação com a API.
-// - adiciona automaticamente o cabeçalho Authorization: Bearer <token>;
-// - ao receber 401, encerra a sessão (logout) e volta para o login;
-// - transforma qualquer erro no formato { message, status, campos }.
 import axios from 'axios';
 
 const CHAVE_TOKEN = 'polvo.token';
 const CHAVE_USUARIO = 'polvo.usuario';
 
-// Persistência da sessão (sobrevive ao recarregamento da página).
 export const sessao = {
   lerToken: () => localStorage.getItem(CHAVE_TOKEN),
   lerUsuario: () => {
@@ -33,13 +28,11 @@ export const api = axios.create({
   timeout: 15000,
 });
 
-// O AuthContext registra aqui o que fazer quando a sessão expira.
 let aoExpirarSessao = () => {};
 export function definirAoExpirarSessao(funcao) {
   aoExpirarSessao = funcao;
 }
 
-// Erro padronizado: a API sempre responde { erro, campos? }.
 export class ErroApi extends Error {
   constructor(erroAxios) {
     const status = erroAxios.response?.status ?? 0;
@@ -75,7 +68,6 @@ api.interceptors.response.use(
 
 const dados = (promessa) => promessa.then((resposta) => resposta.data);
 
-// Remove filtros vazios da query string.
 const semVazios = (objeto) => Object.fromEntries(
   Object.entries(objeto ?? {}).filter(([, valor]) => valor !== '' && valor !== null && valor !== undefined),
 );
