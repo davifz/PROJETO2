@@ -1,4 +1,3 @@
-// Formulário de criação/edição de lançamento (usado dentro de um Modal).
 import { useMemo, useState } from 'react';
 import { lancamentosApi } from '../../services/api.js';
 import { Campo, CampoMoeda } from '../ui/Campo.jsx';
@@ -34,8 +33,8 @@ export default function LancamentoForm({ lancamento, categorias, fontes, aoSalva
 
   const categoriasDoTipo = categorias.filter((c) => c.tipo === formulario.tipo);
   const fontesPermitidas = fontes.filter((f) => {
-    if (ehParcelaDeCompra) return f.tipo === 'cartao_credito';   // parcelas continuam no cartão
-    if (formulario.tipo === 'saida') return f.tipo !== 'renda';    // renda só recebe entradas
+    if (ehParcelaDeCompra) return f.tipo === 'cartao_credito';
+    if (formulario.tipo === 'saida') return f.tipo !== 'renda';
     return true;
   });
   const fonteSelecionada = fontes.find((f) => String(f.id) === formulario.fonteDestinoId);
@@ -48,13 +47,11 @@ export default function LancamentoForm({ lancamento, categorias, fontes, aoSalva
     if (erros[campo]) setErros((atuais) => ({ ...atuais, [campo]: undefined }));
   };
 
-  // O erro do servidor vem em "valor", mas o estado guarda centavos.
   const alterarValor = (centavos) => {
     setFormulario((atual) => ({ ...atual, valorCentavos: centavos }));
     if (erros.valor) setErros((atuais) => ({ ...atuais, valor: undefined }));
   };
 
-  // Ao trocar o tipo, limpa a categoria/fonte que deixaram de ser compatíveis.
   const mudarTipo = (tipo) => setFormulario((atual) => {
     const categoriaCompativel = categorias.some((c) => String(c.id) === atual.categoriaId && c.tipo === tipo);
     const fonte = fontes.find((f) => String(f.id) === atual.fonteDestinoId);
@@ -68,7 +65,6 @@ export default function LancamentoForm({ lancamento, categorias, fontes, aoSalva
     };
   });
 
-  // Prévia de em qual fatura a compra (ou cada parcela) vai cair.
   const previa = useMemo(() => {
     if (!ehCartao || !/^\d{4}-\d{2}-\d{2}$/.test(formulario.data)) return null;
     const cartao = { diaFechamento: fonteSelecionada.diaFechamento, diaVencimento: fonteSelecionada.diaVencimento };
