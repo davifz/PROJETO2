@@ -1,4 +1,3 @@
-// Campo de formulário com rótulo e mensagem de erro (do cliente ou do servidor).
 import { centavosParaTexto } from '../../utils/formatadores.js';
 
 export function Campo({ id, rotulo, erro, ajuda, como: Elemento = 'input', prefixo, children, ...props }) {
@@ -19,8 +18,6 @@ export function Campo({ id, rotulo, erro, ajuda, como: Elemento = 'input', prefi
   );
 }
 
-// Campo de dinheiro com máscara: o usuário digita só números e o valor é
-// guardado em centavos (inteiro), evitando erros de ponto flutuante.
 export function CampoMoeda({ id, rotulo, centavos, aoMudar, erro, ajuda, ...props }) {
   return (
     <Campo
