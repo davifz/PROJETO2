@@ -1,0 +1,23 @@
+// Logo "Polvo": um polvo segurando uma moeda (SVG original, nas cores da paleta).
+export default function Logo({ tamanho = 40, titulo = 'Polvo' }) {
+  return (
+    <svg width={tamanho} height={tamanho} viewBox="0 0 64 64" role="img" aria-label={titulo}>
+      <rect width="64" height="64" rx="16" fill="#1F3644" />
+      <g fill="none" stroke="#EDF5F6" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21.5 32.5C15 33.5 10.5 37.5 10.5 43c0 4.2 4.6 5.2 6 2" />
+        <path d="M25.5 35c-3 4.6-5 9.4-4.2 14.3.7 4.1 5.4 4.3 6 1.2" />
+        <path d="M30 36.5c-.6 5.3-.4 10.6 1.5 15.2 1.3 3.2 5.2 2.6 5-.4" />
+        <path d="M38.5 35c3 4.6 5 9.4 4.2 14.3" />
+        <path d="M42.5 32.5C49 33.5 53.5 37.5 53.5 43c0 4.2-4.6 5.2-6 2" />
+      </g>
+      <path
+        d="M17.5 25.5C17.5 15.6 24 9 32 9s14.5 6.6 14.5 16.5c0 5.3-2.8 9.3-6.8 11.3H24.3c-4-2-6.8-6-6.8-11.3Z"
+        fill="#EDF5F6"
+      />
+      <circle cx="26.8" cy="24.5" r="2.4" fill="#0F1B24" />
+      <circle cx="37.2" cy="24.5" r="2.4" fill="#0F1B24" />
+      <circle cx="46" cy="53" r="5.2" fill="#00F5D4" />
+      <circle cx="46" cy="53" r="2.6" fill="none" stroke="#0F1B24" strokeWidth="1.4" />
+    </svg>
+  );
+}
