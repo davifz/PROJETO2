@@ -18,7 +18,7 @@ export function paraCentavos(valor) {
   return null;
 }
 
-// 3334 → '33.34' (texto exato para gravar em NUMERIC, sem passar por float).
+// 3334 fica '33.34' (texto exato para gravar em NUMERIC, sem passar por float).
 export function centavosParaDecimal(centavos) {
   const sinal = centavos < 0 ? '-' : '';
   const absoluto = Math.abs(centavos);
@@ -28,7 +28,7 @@ export function centavosParaDecimal(centavos) {
 export const deCentavos = (centavos) => centavos / 100;
 export const emCentavos = (numero) => Math.round(Number(numero) * 100);
 
-// R$ 100,00 em 3× → [3334, 3333, 3333]
+// R$ 100,00 em 3× fica [3334, 3333, 3333]
 export function dividirEmParcelas(totalCentavos, quantidade) {
   const base = Math.floor(totalCentavos / quantidade);
   const resto = totalCentavos - base * quantidade;
